@@ -1,5 +1,5 @@
 # YT-VIDEOS-API
-This Open-Source API provides the free list of videos of a channel.
+This is a free open source api that allows you to list the videos of a channel.
 
 
 ### URL base: https://yt-videos-api.glitch.me/
