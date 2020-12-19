@@ -36,7 +36,7 @@ Obs.:
 
 - After that just get the list id in the link that you were redirected, example:
 
-- https://www.youtube.com/playlist?list=**UU4BRTvhKkBADF23Az5AQgi**&playnext=1&index=1
+- https://www.youtube.com/playlist?list=UU4BRTvhKkBADF23Az5AQgi&playnext=1&index=1
 - The link id is: **UU4BRTvhKkBADF23Az5AQgi**
 
 
