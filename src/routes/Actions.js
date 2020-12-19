@@ -65,7 +65,7 @@ const channelVideos = (playlistId) => {
     )
   })
   
-  return {
+  return toClean2[0] ? {
     channelInfo: {
       name: JSON.parse(toClean2[0]).playlistVideoRenderer.shortBylineText.runs[0].text,
       baseUrl: JSON.parse(toClean2[0]).playlistVideoRenderer.shortBylineText.runs[0].navigationEndpoint.browseEndpoint.canonicalBaseUrl
@@ -76,9 +76,12 @@ const channelVideos = (playlistId) => {
       thumbnail
     },
     channelVideos
-  }
+  } : {'error': 'Playlist id is invalid.' }
 }
 
+if(!req.query.list)
+  return res.status(400).json({ 'error': 'Insert the playlist id.'})
+  
 res.json(channelVideos(req.query.list))
 })
 
