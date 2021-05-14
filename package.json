@@ -1,21 +1,35 @@
 {
-  "name": "bom-dia-api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "nodemon ./src/App.js",
-    "start": "node ./src/App.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "name": "yt-getvideos",
+  "version": "1.0.6",
+  "description": "Simple functions to get video information, list videos from a channel and search.",
+  "main": "src/index.js",
+  "repository": "https://github.com/Lenn-xsr/yt-getvideos",
+  "homepage": "https://github.com/Lenn-xsr/yt-getvideos#README",
+  "author": "Lennart",
+  "license": "MIT",
   "engines": {
     "node": "12.x"
   },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
     "xmlhttprequest": "^1.8.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/Lenn-xsr/yt-getvideos/issues"
+  },
+  "keywords": [
+    "youtube",
+    "yt-api",
+    "youtube videos",
+    "yt-videos-list",
+    "get-videos",
+    "youtube api",
+    "yt-search",
+    "yt-getvideos",
+    "channel",
+    "youtube-api",
+    "video"
+  ]
 }

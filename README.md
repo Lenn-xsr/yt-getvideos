@@ -1,68 +1,139 @@
-# YT-VIDEOS-API
-This is a free open source api that allows you to list the videos of a channel.
+[![npm](https://img.shields.io/npm/v/yt-getvideos.svg?maxAge=3600)](https://www.npmjs.com/package/yt-getvideos)
+[![npm](https://img.shields.io/npm/dm/yt-getvideos.svg?maxAge=3600)](https://www.npmjs.com/package/yt-getvideos)
+[![npm](https://img.shields.io/npm/l/yt-getvideos.svg?maxAge=3600)](https://www.npmjs.com/package/yt-getvideos)
 
+# yt-getvideos
 
-### URL base: https://yt-videos-api.glitch.me/
+Simple and complete youtube search API
 
+## Installation
 
+```bash
+npm install yt-getvideos
+```
 
-> Available endpoints:
+## Easy to use
 
-|  EndPoint        | Description |
-| ---------------  |:-------------:|
-| /                | Displays all information |
+#### Searching for videos
 
+```javascript
+/*
+ * @param {String} Query
+ * @return {Array} or {Object} in case of error
+ */
 
+const { search } = require("yt-getvideos");
+var videos = search("Something you want to research");
 
+console.log(videos);
+```
 
-> Available parameters:
+###### output
 
-|  Parameter      | Description |
-| --------------- |:-------------:|
-| list=            | Receives the channel list id to be displayed ( required ) |
-| reduce=         | Receives < **true** *or* **false** ( not required )>; Reduces the amount of information received |
+```javascript
+[
+  {
+    title: String,
+    publishedTime: String,
+    viewsCount: String,
+    thumbnails: [ Object, ... ],
+    videoId: String
+  },
+  ...
+]
+```
 
+#### Channel videos
 
-Obs.: 
-- The api is recursive, so you can pass more than one parameter in the endpoint
+```javascript
+/*
+ * @param {String} channel name
+ * @param {Boolean} only ids - shows only the ids of the videos in the return (optional)
+ * @param {Boolean} get lives < beta > (optional)
+ * @return {Array}
+ */
 
+const { channelVideos } = require("yt-getvideos");
 
+// case 1
+var videos = channelVideos("CHANNEL-NAME");
 
-# How to get a playlist id
+// case 2 ( only ids )
+var videos = channelVideos("CHANNEL-NAME", true);
 
-- Go to the desired channel and then to the VIDEOS tab, after that leave the filter in UPLOADS and click on play all.
+console.log(videos);
+```
 
-<img src="https://i.imgur.com/qSBz80c.png?1">
+###### output
 
-- After that just get the list id in the link that you were redirected, example:
+```javascript
+// case 1
+[
+{
+  title: String,
+  publishedTime: String,
+  viewsCount: String,
+  thumbnails: [ Object, ... ],
+  videoId: String
+},
+...
+]
+// case 2 ( only ids )
+[String, String, ...]
+```
 
-- https://www.youtube.com/playlist?list=UU4BRTvhKkBADF23Az5AQgi&playnext=1&index=1
-- The link id is: **UU4BRTvhKkBADF23Az5AQgi**
+#### Single video info
 
+```javascript
+/*
+ * @param {String} video hash id
+ * @return {Object}
+ */
 
+const { videoInfo } = require("yt-getvideos");
+var video = videoInfo("VIDEO-HASH-ID");
 
-# Examples of requests using Axios
+console.log(video);
+```
 
-```js
-const axios = require('axios')
+###### output
 
-// Getting the last video from the channel
-
-axios.get('https://yt-videos-api.glitch.me/?list={CHANNEL_VIDEO_LIST_ID}')
-.then(function (response) {
-  console.log(response.data.lastVideo);
-})
-
-
-// Doing a search for videos using a keyword
-
-axios.get('https://yt-videos-api.glitch.me/?list={CHANNEL_VIDEO_LIST_ID}&reduce=true')
-.then(function (response) {
-  console.log(
-    response.data.channelVideos.filter(video => {
-      video.title.toLowerCase().includes('keyword')
-    })
-  )
-})
+```javascript
+{
+  title: String,
+  thumbnails: [ Object, ... ]
+  ],
+  viewCount: String,
+  publishDate: String,
+  uploadDate: String,
+  category: String,
+  channel: {
+    name: String,
+    id: String,
+    url: String
+  },
+  embed: {
+    iframeUrl: String,
+    flashUrl: String,
+    width: Number,
+    height: Number,
+    flashSecureUrl: String
+  },
+  description: String
+}
 
 ```
+
+## About
+
+Simple functions to get video information, list videos from a channel and search.
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
