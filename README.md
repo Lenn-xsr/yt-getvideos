@@ -47,19 +47,27 @@ console.log(videos);
 
 ```javascript
 /*
- * @param {String} channel name
+ * @param {String} channel videos link
  * @param {Boolean} only ids - shows only the ids of the videos in the return (optional)
- * @param {Boolean} get lives < beta > (optional)
  * @return {Array}
  */
 
 const { channelVideos } = require("yt-getvideos");
 
+/* 
+  Examples of links that are accepted:
+    - https://www.youtube.com/AngularFirebase/videos
+    - https://www.youtube.com/channel/UCsBjURrPoezykLs9EqgamOA/videos
+*/
+
 // case 1
-var videos = channelVideos("CHANNEL-NAME");
+var videos = channelVideos("https://www.youtube.com/AngularFirebase/videos");
 
 // case 2 ( only ids )
-var videos = channelVideos("CHANNEL-NAME", true);
+var videos = channelVideos(
+  "https://www.youtube.com/AngularFirebase/videos",
+  true
+);
 
 console.log(videos);
 ```
@@ -89,6 +97,12 @@ console.log(videos);
  * @param {String} video hash id
  * @return {Object}
  */
+
+/* 
+  Example:
+    Link: https://www.youtube.com/watch?v=WBwfRBdaRiC
+    The video hash id is `WBwfRBdaRiC`
+*/
 
 const { videoInfo } = require("yt-getvideos");
 var video = videoInfo("VIDEO-HASH-ID");

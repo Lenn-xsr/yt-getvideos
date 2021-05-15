@@ -10,7 +10,8 @@ const { loadElements, formatString } = require("../utils");
 // This code follows the same logic as 'ChannelVideos'
 
 module.exports = (hash_id) => {
-  if (!hash_id || hash_id == "") return { error: "Invalid hash id" };
+  if (!hash_id || hash_id == "")
+    return console.error("[YT-GETVIDEOS]\x1b[31m Invalid hash id \x1b[0m");
 
   const htmlText = loadElements(`https://www.youtube.com/watch?v=${hash_id}`);
   const htmlMatch = [
@@ -54,5 +55,5 @@ module.exports = (hash_id) => {
     }
   }
 
-  return video ? video : { error: "No search results" };
+  return video ? video : { error: "No results" };
 };

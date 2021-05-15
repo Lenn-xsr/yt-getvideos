@@ -10,7 +10,8 @@ const { loadElements, formatString } = require("../utils");
 // This code follows the same logic as 'ChannelVideos'
 
 module.exports = (query) => {
-  if (!query || query == "") return { error: "Invalid query" };
+  if (!query || query == "")
+    return console.error("[YT-GETVIDEOS]\x1b[31m Invalid query \x1b[0m");
 
   const htmlText = loadElements(
     `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`
@@ -18,11 +19,29 @@ module.exports = (query) => {
   const htmlMatch = [...htmlText.matchAll(/{"videoRenderer":(.*?)}]}}}]}}/g)];
 
   const toClean = [];
-  htmlMatch.forEach((r) => toClean.push(r[0]));
+  htmlMatch.forEach((r) => {
+    toClean.push(r[0]);
+  });
+
+  const getTranslate = [];
+  toClean.forEach((r) => {
+    [...r.matchAll(/{"videoRenderer":(.*?)"G_TRANSLATE"}}/g)].forEach((r2) =>
+      getTranslate.push(r2[0] + "}")
+    );
+  });
+
+  const getAnother = [];
+  toClean.forEach((r) => {
+    [...r.matchAll(/{"videoRenderer":(.*?)}]}}}]}}/g)].forEach((r2) => {
+      if (!r2[0].includes("G_TRANSLATE")) getAnother.push(r2[0]);
+    });
+  });
+
+  const cleaned = [...new Set([...getAnother, ...getTranslate])];
 
   const videos = [];
 
-  toClean.forEach((item) => {
+  cleaned.forEach((item) => {
     const parsed = JSON.parse(item).videoRenderer;
 
     if (parsed && parsed.lengthText) {
