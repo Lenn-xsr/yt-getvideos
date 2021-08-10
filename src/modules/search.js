@@ -34,9 +34,7 @@ async function search(query) {
         },
       });
     }
-  } catch {
-    console.log(err);
-  }
+  } catch {}
 
   return results[0] ? results : { error: "No search results" };
 }

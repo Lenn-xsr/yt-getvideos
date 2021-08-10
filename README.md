@@ -31,32 +31,25 @@ const { channelVideos } = require("yt-getvideos");
 
 /* 
   Examples of links that are accepted:
-    - https://www.youtube.com/AngularFirebase/videos
+    - https://www.youtube.com/c/Fireship/videos
     - https://www.youtube.com/channel/UCsBjURrPoezykLs9EqgamOA/videos
 */
 
-channelVideos("https://www.youtube.com/AngularFirebase/videos").then(
-  (result) => {
-    console.log(result);
-  }
-);
+channelVideos("https://www.youtube.com/c/Fireship/videos").then((result) => {
+  console.log(result);
+});
 ```
 
 #### Single video info
 
 ```javascript
-/*
- * @param {String} video hash id
- * @return {Object}
- */
+const { videoInfo } = require("yt-getvideos");
 
 /* 
   Example:
     Link: https://www.youtube.com/watch?v=WBwfRBdaRiC
     The video hash id is `WBwfRBdaRiC`
 */
-
-const { videoInfo } = require("yt-getvideos");
 
 videoInfo("VIDEO-HASH-ID").then((result) => {
   console.log(result);

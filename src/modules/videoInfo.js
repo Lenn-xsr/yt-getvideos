@@ -27,9 +27,7 @@ async function videoInfo(videoId) {
       },
       embed: video.embed,
     };
-  } catch (err) {
-    console.log(err);
-  }
+  } catch {}
 
   return result ? result : { error: "No results" };
 }

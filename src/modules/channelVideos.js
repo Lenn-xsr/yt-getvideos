@@ -21,9 +21,7 @@ async function channelVideos(channelVideosURL) {
         thumbnails: video.thumbnail.thumbnails,
       });
     }
-  } catch (err) {
-    console.log(err);
-  }
+  } catch {}
 
   return results;
 }
