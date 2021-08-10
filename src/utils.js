@@ -1,14 +1,19 @@
-const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const https = require("https");
 
-const loadElements = (url) => {
-  const xhr = new XMLHttpRequest();
-  try {
-    xhr.open("GET", url, false);
-    xhr.send(null);
-  } catch (error) {
-    console.log(error);
-  }
-  return xhr.responseText;
+const fetch = (url) => {
+  return new Promise((resolve, reject) => {
+    const request = https.request(url, (response) => {
+      let text = "";
+
+      response.setEncoding("utf-8");
+
+      response.on("data", (data) => (text += data));
+      response.on("end", () => resolve(text));
+    });
+
+    request.on("error", (error) => reject(error));
+    request.end();
+  });
 };
 
 const formatString = (str) => {
@@ -17,4 +22,4 @@ const formatString = (str) => {
   );
 };
 
-module.exports = { formatString, loadElements };
+module.exports = { fetch, formatString };

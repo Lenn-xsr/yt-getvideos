@@ -17,41 +17,16 @@ npm install yt-getvideos
 #### Searching for videos
 
 ```javascript
-/*
- * @param {String} Query
- * @return {Array} or {Object} in case of error
- */
-
 const { search } = require("yt-getvideos");
-var videos = search("Something you want to research");
 
-console.log(videos);
-```
-
-###### output
-
-```javascript
-[
-  {
-    title: String,
-    publishedTime: String,
-    viewsCount: String,
-    thumbnails: [ Object, ... ],
-    videoId: String
-  },
-  ...
-]
+search("Something you want to research").then((result) => {
+  console.log(result);
+});
 ```
 
 #### Channel videos
 
 ```javascript
-/*
- * @param {String} channel videos link
- * @param {Boolean} only ids - shows only the ids of the videos in the return (optional)
- * @return {Array}
- */
-
 const { channelVideos } = require("yt-getvideos");
 
 /* 
@@ -60,34 +35,11 @@ const { channelVideos } = require("yt-getvideos");
     - https://www.youtube.com/channel/UCsBjURrPoezykLs9EqgamOA/videos
 */
 
-// case 1
-var videos = channelVideos("https://www.youtube.com/AngularFirebase/videos");
-
-// case 2 ( only ids )
-var videos = channelVideos(
-  "https://www.youtube.com/AngularFirebase/videos",
-  true
+channelVideos("https://www.youtube.com/AngularFirebase/videos").then(
+  (result) => {
+    console.log(result);
+  }
 );
-
-console.log(videos);
-```
-
-###### output
-
-```javascript
-// case 1
-[
-{
-  title: String,
-  publishedTime: String,
-  viewsCount: String,
-  thumbnails: [ Object, ... ],
-  videoId: String
-},
-...
-]
-// case 2 ( only ids )
-[String, String, ...]
 ```
 
 #### Single video info
@@ -105,37 +57,10 @@ console.log(videos);
 */
 
 const { videoInfo } = require("yt-getvideos");
-var video = videoInfo("VIDEO-HASH-ID");
 
-console.log(video);
-```
-
-###### output
-
-```javascript
-{
-  title: String,
-  thumbnails: [ Object, ... ]
-  ],
-  viewCount: String,
-  publishDate: String,
-  uploadDate: String,
-  category: String,
-  channel: {
-    name: String,
-    id: String,
-    url: String
-  },
-  embed: {
-    iframeUrl: String,
-    flashUrl: String,
-    width: Number,
-    height: Number,
-    flashSecureUrl: String
-  },
-  description: String
-}
-
+videoInfo("VIDEO-HASH-ID").then((result) => {
+  console.log(result);
+});
 ```
 
 ## About

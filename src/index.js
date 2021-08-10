@@ -1,5 +1,5 @@
 module.exports = {
-  channelVideos: require("./modules/channelVideos"),
-  videoInfo: require("./modules/videoInfo"),
-  search: require("./modules/search"),
+  channelVideos: require("./modules/channelVideos.js"),
+  search: require("./modules/search.js"),
+  videoInfo: require("./modules/videoInfo.js"),
 };

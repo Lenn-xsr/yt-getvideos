@@ -1,59 +1,37 @@
-const { loadElements, formatString } = require("../utils");
+const { fetch, formatString } = require("../utils");
+const baseURL = "https://www.youtube.com";
 
-/*
- * Getting video info
- *
- * @param {String} video hash id
- * @return {Object}
- */
-
-// This code follows the same logic as 'ChannelVideos'
-
-module.exports = (hash_id) => {
-  if (!hash_id || hash_id == "")
+async function videoInfo(videoId) {
+  if (!videoId || videoId == "")
     return console.error("[YT-GETVIDEOS]\x1b[31m Invalid hash id \x1b[0m");
 
-  const htmlText = loadElements(`https://www.youtube.com/watch?v=${hash_id}`);
-  const htmlMatch = [
-    ...htmlText.matchAll(/{"playerMicroformatRenderer":(.*?)}}/g),
-  ];
+  const html = await fetch(`${baseURL}/watch?v=${videoId}`);
+  const match = html.match(/{"playerMicroformatRenderer":(.+?)}}/g);
 
-  const parsed = JSON.parse(htmlMatch[0][1] + "}");
-  let video = null;
+  let result;
 
-  if (parsed) {
-    const {
-      title: { simpleText: title },
-      thumbnail: { thumbnails },
-      embed,
-      ownerProfileUrl: url,
-      viewCount,
-      category,
-      publishDate,
-      ownerChannelName: name,
-      externalChannelId: id,
-      uploadDate,
-    } = parsed;
+  try {
+    const { playerMicroformatRenderer: video } = JSON.parse(match[0]);
 
-    video = {
-      title: formatString(title),
-      thumbnails,
-      viewCount,
-      publishDate,
-      uploadDate,
-      category,
+    result = {
+      title: formatString(video.title.simpleText),
+      description: video.description.simpleText,
+      category: video.category,
+      publishedAt: video?.publishDate || video?.uploadDate,
+      views: video.viewCount || "",
+      thumbnails: video.thumbnail.thumbnails,
       channel: {
-        name,
-        id,
-        url,
+        name: video.ownerChannelName,
+        id: video.externalChannelId,
+        url: video.ownerProfileUrl,
       },
-      embed,
+      embed: video.embed,
     };
-
-    if (parsed.description) {
-      video.description = parsed.description.simpleText;
-    }
+  } catch (err) {
+    console.log(err);
   }
 
-  return video ? video : { error: "No results" };
-};
+  return result ? result : { error: "No results" };
+}
+
+module.exports = videoInfo;

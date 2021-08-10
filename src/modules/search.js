@@ -1,84 +1,44 @@
-const { loadElements, formatString } = require("../utils");
+const { fetch } = require("../utils");
+const baseURL = "https://www.youtube.com";
 
-/*
- * Searching for videos
- *
- * @param {String} Query
- * @return {Array} or {Object} in case of error
- */
-
-// This code follows the same logic as 'ChannelVideos'
-
-module.exports = (query) => {
+async function search(query) {
   if (!query || query == "")
     return console.error("[YT-GETVIDEOS]\x1b[31m Invalid query \x1b[0m");
 
-  const htmlText = loadElements(
-    `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`
+  const html = await fetch(
+    baseURL + "/results?search_query=" + encodeURIComponent(query)
   );
-  const htmlMatch = [...htmlText.matchAll(/{"videoRenderer":(.*?)}]}}}]}}/g)];
+  const match = html.match(/{"videoRenderer":(.+?)false}]}}/g);
 
-  const toClean = [];
-  htmlMatch.forEach((r) => {
-    toClean.push(r[0]);
-  });
+  const results = [];
 
-  const getTranslate = [];
-  toClean.forEach((r) => {
-    [...r.matchAll(/{"videoRenderer":(.*?)"G_TRANSLATE"}}/g)].forEach((r2) =>
-      getTranslate.push(r2[0] + "}")
-    );
-  });
+  try {
+    for (const data of match) {
+      const { videoRenderer: video } = JSON.parse(data);
 
-  const getAnother = [];
-  toClean.forEach((r) => {
-    [...r.matchAll(/{"videoRenderer":(.*?)}]}}}]}}/g)].forEach((r2) => {
-      if (!r2[0].includes("G_TRANSLATE")) getAnother.push(r2[0]);
-    });
-  });
-
-  const cleaned = [...new Set([...getAnother, ...getTranslate])];
-
-  const videos = [];
-
-  cleaned.forEach((item) => {
-    const parsed = JSON.parse(item).videoRenderer;
-
-    if (parsed && parsed.lengthText) {
-      const {
-        videoId,
-        title: {
-          runs: [{ text: title }],
-        },
-        thumbnail: { thumbnails },
-        shortViewCountText: { simpleText: views },
-        publishedTimeText: { simpleText: publishedTime },
-        lengthText: { simpleText: videoTime },
-      } = parsed;
-
-      let video = {
-        videoId,
-        title: formatString(title),
-        thumbnails,
-        views,
-        publishedTime,
-        videoTime,
-      };
-
-      if (parsed.descriptionSnippet)
-        video.shortDescription = parsed.descriptionSnippet.runs[0].text;
-
-      if (parsed.channelThumbnailSupportedRenderers) {
-        video.channel = {
-          name: parsed.ownerText.runs[0].text,
+      results.push({
+        title: video.title.runs[0].text,
+        id: video.videoId,
+        description:
+          video.detailedMetadataSnippets[0].snippetText.runs
+            .map(({ text }) => text)
+            .join("") || "",
+        publishedAt: video.publishedTimeText?.simpleText || "",
+        views: video.shortViewCountText.simpleText || "",
+        thumbnails: video.thumbnail.thumbnails,
+        channel: {
+          name: video.ownerText.runs[0].text,
           thumbnails:
-            parsed.channelThumbnailSupportedRenderers
+            video.channelThumbnailSupportedRenderers
               .channelThumbnailWithLinkRenderer.thumbnail.thumbnails,
-        };
-      }
-      videos.push(video);
+        },
+      });
     }
-  });
+  } catch {
+    console.log(err);
+  }
 
-  return videos[0] ? videos : { error: "No search results" };
-};
+  return results[0] ? results : { error: "No search results" };
+}
+
+module.exports = search;
