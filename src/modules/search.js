@@ -34,7 +34,7 @@ async function search(query) {
         },
       });
     }
-  } catch {
+  } catch (err) {
     console.log(err);
   }
 
