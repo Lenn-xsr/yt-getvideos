@@ -31,15 +31,13 @@ const { channelVideos } = require("yt-getvideos");
 
 /* 
   Examples of links that are accepted:
-    - https://www.youtube.com/AngularFirebase/videos
+    - https://www.youtube.com/c/Fireship/videos
     - https://www.youtube.com/channel/UCsBjURrPoezykLs9EqgamOA/videos
 */
 
-channelVideos("https://www.youtube.com/AngularFirebase/videos").then(
-  (result) => {
-    console.log(result);
-  }
-);
+channelVideos("https://www.youtube.com/c/Fireship/videos").then((result) => {
+  console.log(result);
+});
 ```
 
 #### Single video info
