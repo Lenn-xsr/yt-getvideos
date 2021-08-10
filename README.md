@@ -45,11 +45,6 @@ channelVideos("https://www.youtube.com/AngularFirebase/videos").then(
 #### Single video info
 
 ```javascript
-/*
- * @param {String} video hash id
- * @return {Object}
- */
-
 /* 
   Example:
     Link: https://www.youtube.com/watch?v=WBwfRBdaRiC
