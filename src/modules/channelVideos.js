@@ -23,7 +23,9 @@ async function channelVideos(channelVideosURL) {
 
   try {
     for (const data of videos) {
-      const video = data.richItemRenderer.content.videoRenderer;
+      const video = data?.richItemRenderer?.content?.videoRenderer;
+
+      if (!video) continue;
 
       results.push({
         title: video.title.runs[0].text,
