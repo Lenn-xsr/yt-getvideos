@@ -17,9 +17,9 @@ npm install yt-getvideos
 #### Searching for videos
 
 ```javascript
-const { search } = require("yt-getvideos");
+const { search } = require('yt-getvideos');
 
-search("Something you want to research").then((result) => {
+search('Something you want to research').then(result => {
   console.log(result);
 });
 ```
@@ -27,7 +27,7 @@ search("Something you want to research").then((result) => {
 #### Channel videos
 
 ```javascript
-const { channelVideos } = require("yt-getvideos");
+const { channelVideos } = require('yt-getvideos');
 
 /* 
   Examples of links that are accepted:
@@ -35,7 +35,7 @@ const { channelVideos } = require("yt-getvideos");
     - https://www.youtube.com/channel/UCsBjURrPoezykLs9EqgamOA/videos
 */
 
-channelVideos("https://www.youtube.com/c/Fireship/videos").then((result) => {
+channelVideos('https://www.youtube.com/c/Fireship/videos').then(result => {
   console.log(result);
 });
 ```
@@ -43,7 +43,7 @@ channelVideos("https://www.youtube.com/c/Fireship/videos").then((result) => {
 #### Single video info
 
 ```javascript
-const { videoInfo } = require("yt-getvideos");
+const { videoInfo } = require('yt-getvideos');
 
 /* 
   Example:
@@ -51,7 +51,7 @@ const { videoInfo } = require("yt-getvideos");
     The video hash id is `WBwfRBdaRiC`
 */
 
-videoInfo("VIDEO-HASH-ID").then((result) => {
+videoInfo('VIDEO-HASH-ID').then(result => {
   console.log(result);
 });
 ```
