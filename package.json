@@ -1,15 +1,12 @@
 {
   "name": "yt-getvideos",
-  "version": "1.1.0",
+  "version": "2.1.0",
   "description": "Simple functions to get video information, list videos from a channel and search.",
   "main": "src/index.js",
   "repository": "https://github.com/Lenn-xsr/yt-getvideos",
   "homepage": "https://github.com/Lenn-xsr/yt-getvideos#README",
   "author": "Lennart",
   "license": "MIT",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "bugs": {
     "url": "https://github.com/Lenn-xsr/yt-getvideos/issues"
   },
