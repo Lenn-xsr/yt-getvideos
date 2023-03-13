@@ -1,4 +1,4 @@
-const { fetch } = require("../utils");
+const { fetch } = require('../utils');
 
 async function channelVideos(channelVideosURL) {
   if (!channelVideosURL.match(/videos|channel|\/c\//g))
@@ -7,21 +7,35 @@ async function channelVideos(channelVideosURL) {
     );
 
   const html = await fetch(channelVideosURL);
-  const match = html.match(/{"gridVideoRenderer":(.+?)]}}}]}}/g);
+  const match = html.match(/var ytInitialData = (.*)]}}};/)?.[1];
+
+  if (!match) return [];
+
+  const parsedMatch = JSON.parse(match + ']}}}');
+  const videosTab =
+    parsedMatch.contents.twoColumnBrowseResultsRenderer.tabs.find(tab =>
+      tab?.tabRenderer?.title?.match(/vídeos|videos/i)
+    );
+
+  const videos = videosTab.tabRenderer.content.richGridRenderer.contents;
+
   const results = [];
+
   try {
-    for (const data of match) {
-      const { gridVideoRenderer: video } = JSON.parse(data);
+    for (const data of videos) {
+      const video = data.richItemRenderer.content.videoRenderer;
 
       results.push({
         title: video.title.runs[0].text,
         id: video.videoId,
-        publishedAt: video.publishedTimeText?.simpleText || "",
-        views: video.shortViewCountText.simpleText || "",
-        thumbnails: video.thumbnail.thumbnails,
+        publishedAt: video.publishedTimeText?.simpleText || '',
+        views: video.shortViewCountText.simpleText || '',
+        thumbnails: video.thumbnail.thumbnails
       });
     }
-  } catch {}
+  } catch (err) {
+    console.log(err);
+  }
 
   return results;
 }
