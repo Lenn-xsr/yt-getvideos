@@ -14,7 +14,7 @@ async function channelVideos(channelVideosURL) {
   const parsedMatch = JSON.parse(match + ']}}}');
   const videosTab =
     parsedMatch.contents.twoColumnBrowseResultsRenderer.tabs.find(tab =>
-      tab?.tabRenderer?.title?.match(/vídeos|videos/Video/i)
+      tab?.tabRenderer?.title?.match(/vídeos|videos|Video/i)
     );
 
   const videos = videosTab.tabRenderer.content.richGridRenderer.contents;
